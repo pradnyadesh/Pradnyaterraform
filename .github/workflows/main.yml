@@ -64,4 +64,4 @@ jobs:
       - name: Debug
         run: |
           pwd
-          ls -R environments\test
+          ls -R environments\\test
