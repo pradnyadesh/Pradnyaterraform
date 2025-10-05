@@ -38,11 +38,47 @@ jobs:
       - name: Apply (Dev)
         run: terraform apply -auto-approve -var-file="environments/dev/terraform.tfvars"
 
+  testing:
+    name: Deploy testing
+    runs-on: ubuntu-latest
+    environment: testing
+    needs: dev
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      TF_VAR_vm_username: ${{ secrets.TF_VAR_vm_username }}
+      TF_VAR_vm_password: ${{ secrets.TF_VAR_vm_password }}
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.7
+      - name: Init (testing)
+        run: terraform init -backend-config="key=3tier/test.terraform.tfstate"
+
+      - name: Debug
+        run: |
+          pwd
+          ls -R environments/testing
+
+      - name: Plan (testing)
+        run: terraform plan -var-file="environments/testing/terraform.tfvars"
+      - name: Apply (testing)
+        run: terraform apply -auto-approve -var-file="environments/testing/terraform.tfvars"
+
+
   prod:
     name: Deploy Prod
     runs-on: ubuntu-latest
     environment: prod
-    needs: [dev]
+    needs: [dev, testing]
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
