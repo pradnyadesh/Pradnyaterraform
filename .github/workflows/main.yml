@@ -64,7 +64,7 @@ jobs:
       - name: Debug
         run: |
           pwd
-          ls -R environments/dev
+          ls -R environments/test
       - name: Init (test)
         run: terraform init -backend-config="key=3tier/test.terraform.tfstate"
 
