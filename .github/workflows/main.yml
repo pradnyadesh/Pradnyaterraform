@@ -35,10 +35,8 @@ jobs:
           ls -R environments/dev
       - name: Plan (Dev)
         run: terraform plan -var-file="environments/dev/terraform.tfvars"
-
       - name: Apply (Dev)
         run: terraform apply -auto-approve -var-file="environments/dev/terraform.tfvars"
-
   test:
     name: Deploy Test
     runs-on: ubuntu-latest
@@ -67,7 +65,3 @@ jobs:
         run: |
           pwd
           ls -R environments/test
-      - name: Plan (Test)
-        run: terraform plan -var-file="environments/test/terraform.tfvars"
-      - name: Apply (Test)
-        run: terraform apply -auto-approve -var-file="environments/test/terraform.tfvars"
