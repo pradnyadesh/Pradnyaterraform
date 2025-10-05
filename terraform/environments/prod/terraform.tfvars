@@ -1,4 +1,4 @@
-rg_name      = "rg-test"
-vnet_name    = "vnet-test"
-vm_name      = "vm-test"
+rg_name      = "rg-prod"
+vnet_name    = "vnet-prod"
+vm_name      = "vm-prod"
 location     = "eastus2"
