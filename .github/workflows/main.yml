@@ -40,10 +40,9 @@ jobs:
         run: terraform apply -auto-approve -var-file="environments/dev/terraform.tfvars"
 
   test:
-    name: Deploy test
+    name: Deploy Test
     runs-on: ubuntu-latest
     environment: test
-    needs: dev
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -61,15 +60,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.7
-      - name: Init (test)
+      - name: Init (Test)
         run: terraform init -backend-config="key=3tier/test.terraform.tfstate"
-
       - name: Debug
         run: |
           pwd
-          ls -R environments/test
-
-      - name: Plan (test)
+          ls -R environments
+      - name: Plan (Test)
         run: terraform plan -var-file="environments/test/terraform.tfvars"
-      - name: Apply (test)
+      - name: Apply (Test)
         run: terraform apply -auto-approve -var-file="environments/test/terraform.tfvars"
