@@ -32,12 +32,12 @@ jobs:
       - name: Debug
         run: |
           pwd
-          ls -R environments/test
+          ls -R environments/dev
       - name: Plan (Dev)
-        run: terraform plan -var-file="environments/test/terraform.tfvars"
+        run: terraform plan -var-file="environments/dev/terraform.tfvars"
 
       - name: Apply (Dev)
-        run: terraform apply -auto-approve -var-file="environments/test/terraform.tfvars"
+        run: terraform apply -auto-approve -var-file="environments/dev/terraform.tfvars"
   test:
     name: Deploy Test
     runs-on: ubuntu-latest
@@ -93,6 +93,6 @@ jobs:
         run: terraform init -backend-config="key=3tier/prod.terraform.tfstate"
 
       - name: Plan (Prod)
-        run: terraform plan -var-file="environments/test/terraform.tfvars"
+        run: terraform plan -var-file="environments/prod/terraform.tfvars"
       - name: Apply (Prod)
-        run: terraform apply -auto-approve -var-file="environments/test/terraform.tfvars"
+        run: terraform apply -auto-approve -var-file="environments/prod/terraform.tfvars"
