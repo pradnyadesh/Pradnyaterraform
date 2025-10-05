@@ -43,6 +43,7 @@ jobs:
     name: Deploy Test
     runs-on: ubuntu-latest
     environment: test
+    needs: [dev]
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -65,7 +66,7 @@ jobs:
       - name: Debug
         run: |
           pwd
-          ls -R environments
+          ls -R environments/test
       - name: Plan (Test)
         run: terraform plan -var-file="environments/test/terraform.tfvars"
       - name: Apply (Test)
