@@ -27,8 +27,8 @@ module "nsg" {
   resource_group_name = module.rg.name
 }
 data "azurerm_key_vault" "kv" {
-  name                = "raghumyKeyVaulttfstate"
-  resource_group_name = "tfstate-rg"
+  name                = "keyvault1005"
+  resource_group_name = "AzureLab"
 }
 data "azurerm_key_vault_secret" "vm_username" {
   name         = "vm-username"
