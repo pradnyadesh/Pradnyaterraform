@@ -61,12 +61,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.7
+      - name: Init (test)
+        run: terraform init -backend-config="key=3tier/test.terraform.tfstate"
+
       - name: Debug
         run: |
           pwd
           ls -R environments/test
-      - name: Init (test)
-        run: terraform init -backend-config="key=3tier/test.terraform.tfstate"
 
       - name: Plan (test)
         run: terraform plan -var-file="environments/test/terraform.tfvars"
